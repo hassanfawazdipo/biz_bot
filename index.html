@@ -3,219 +3,537 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stellar Motive</title>
-    <link rel="stylesheet" href="stellarcar.css">
-    <link rel="stylesheet" href="fontawesome-free-6.4.0-web/css/all.css">
-    <link rel="stylesheet" href="stellarcarresponsive.css">
+    <title>BizBot - AI Business Chatbot</title>
 </head>
 <style>
-    footer {
-    background-color: gold;
-    color: black;
-    padding: 20px 0;
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5; /* Neutral background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.chat-container {
+    width: 350px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-header {
+    background: #128C7E; /* WhatsApp Green */
+    color: #fff;
+    padding: 15px;
     text-align: center;
-    bottom: 0;
-    width: 100%;
+    font-size: 18px;
+    font-weight: bold;
 }
 
-.font{
-    margin-right: 5px;
-    padding-top: 10px;
+.chat-box {
+    height: 400px;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #e5ddd5; /* Subtle background for messages */
 }
 
-.fa-brands{
-    color: black;
-    padding-top: 10px;
+.bot-message, .user-message {
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 80%;
+    font-size: 14px;
+    line-height: 1.5;
 }
+
+.bot-message {
+    background: #DCF8C6; /* Light green like WhatsApp bot messages */
+    color: #000;
+    align-self: flex-start;
+}
+
+.user-message {
+    background: #25D366; /* WhatsApp green */
+    color: white;
+    align-self: flex-end;
+    text-align: right;
+}
+
+.chat-input {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    background: #ffffff;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+.chat-input button {
+    background: #128C7E; /* Matches header */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.chat-input button:hover {
+    background: #0e7a6d;
+}
+
+.ad-popup {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #FF9800; /* More eye-catching */
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    font-size: 14px;
+    text-align: center;
+    z-index: 1000;
+}
+
+.ad-popup a {
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+    display: block;
+    margin-top: 5px;
+}
+
+.close-ad {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+}
+
+button {
+    padding: 8px 12px;
+    margin: 5px;
+    border: none;
+    background-color: #128C7E;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0e7a6d;
+}
+
+.ad-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #25d366;
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    max-width: 320px;
+    font-size: 15px;
+    text-align: center;
+    z-index: 1000;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.ad-popup a {
+    display: inline-block;
+    background: white;
+    color: #25d366;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-top: 10px;
+    transition: 0.3s ease;
+}
+
+.ad-popup a:hover {
+    background: #1da851;
+    color: white;
+}
+
+.close-ad {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    cursor: pointer;
+}
+
+/* Smooth fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+
+
 </style>
 <body>
-    <div id="wrapper">
-        <div class="header">
-            <div class="logo">Stellar Motive</div>
-            <div class="icon" onclick="icon()">
-                <i class="fa fa-bars"></i>
-            </div>
-            <div class="nav" id="nav">
-                <ul>
-                    <li><a href="#showcase">Home</a></li>
-                    <li><a href="#service">Inventory</a></li>
-                    <li><a href="#">Financing</a></li>
-                    <li><a href="#aboutus">About Us</a></li>
-                    <li><a href="#footer">Contact Us</a></li>
-                    <li><a href="">Log Out</a></li>
-                </ul>
-            </div>
+    <div class="chat-container">
+        <div class="chat-header">BizBot - Your Business Advisor</div>
+        <div class="chat-box" id="chat-box">
+            <div class="bot-message">Hello! Click 'HI' to get started.</div>
         </div>
-        <div id="showcase">
-            <h1 class="head">Stellar Motive</h1>
-            <h2>Elevate Your Drive</h2>
+        <div class="chat-input">
+            <button onclick="startBusinessFlow()">HI</button>
         </div>
-        <div id="inventory">
-            <div id="service">
-                <p class="service">OUR SERVICE</p>
-                <div class="allservice">
-                    <div class="paper">
-                        <button class="lick" onclick="myBusiness()">
-                            <div class="business"></div>
-                        </button>
-                        <div class="name">
-                           </button>
-                            <p id="benz"></p>
-                            <p id="benz1"></p>
-                            <p id="benz2"></p>
-                            <p id="benz3"></p>
-                            <p id="benz4"></p>
-                            <button class="contact1" >Purchase</button>
-                            <button class="contact1" >Loan</button>
-                        </div>
-                    </div>
-                    <div class="paper">
-                       
-                        <div class="name">
-                            <button class="lick" onclick="myBusiness1()">
-                                <div class="business1"></div>
-                            </button>
-                            <p id="rols"></p>
-                            <p id="rols1"></p>
-                            <p id="rols2"></p>
-                            <p id="rols3"></p>
-                            <p id="rols4"></p>
-                            <button class="contact1" >Purchase</button>
-                            <button class="contact1" >Loan</button>
-                        </div>
-                    </div>
-                    <div class="paper">
-                        <div class="name">
-                            <button class="lick" onclick="myBusiness2()">
-                                <div class="business2" ></div>
-                            </button>
-                            <p id="fer"></p>
-                            <p id="fer1"></p>
-                            <p id="fer2"></p>
-                            <p id="fer3"></p>
-                            <p id="fer4"></p>
-                            <button class="contact1" >Purchase</button>
-                            <button class="contact1" >Loan</button>
-                        </div>
-                    </div>
-                    <div class="paper">
-                        <div class="name">
-                            <button class="lick" onclick="myBusiness3()">
-                                <div class="business3"></div>
-                            </button>
-                            <p id="acu"></p>
-                            <p id="acu1"></p>
-                            <p id="acu2"></p>
-                            <p id="acu3"></p>
-                            <p id="acu4"></p>
-                            <button class="contact1" >Purchase</button>
-                            <button class="contact1" >Loan</button>
-                        </div>
-                    </div>
-                </div>
- <div id="inventory2">
-            <div id="service2">
-                <div class="allservice2">
-                    <div class="paper">
-                        <button class="lick" onclick="myBusiness4()">
-                            <div class="business4"></div>
-                        </button>
-                        <div class="name">
-                           </button>
-                            <p id="blue"></p>
-                            <p id="blue1"></p>
-                            <p id="blue2"></p>
-                            <p id="blue3"></p>
-                            <p id="blue4"></p>
-                            <button class="contact1" >Purchase</button>
-                            <button class="contact1" >Loan</button>
-                        </div>
-                    </div>
-                    <div class="paper">
-                       
-                        <div class="name">
-                            <button class="lick" onclick="myBusiness5()">
-                                <div class="business5"></div>
-                            </button>
-                            <p id="suv"></p>
-                            <p id="suv1"></p>
-                            <p id="suv2"></p>
-                            <p id="suv3"></p>
-                            <p id="suv4"></p>
-                            <button class="contact1" >Purchase</button>
-                            <button class="contact1" >Loan</button>
-                        </div>
-                    </div>
-                    <div class="paper">
-                        <div class="name">
-                            <button class="lick" onclick="myBusiness6()">
-                                <div class="business6" ></div>
-                            </button>
-                            <p id="bet"></p>
-                            <p id="bet1"></p>
-                            <p id="bet2"></p>
-                            <p id="bet3"></p>
-                            <p id="bet4"></p>
-                            <button class="contact1" >Purchase</button>
-                            <button class="contact1" >Loan</button>
-                        </div>
-                    </div>
-                    <div class="paper">
-                        <div class="name">
-                            <button class="lick" onclick="myBusiness7()">
-                                <div class="business7"></div>
-                            </button>
-                            <p id="red"></p>
-                            <p id="red1"></p>
-                            <p id="red2"></p>
-                            <p id="red3"></p>
-                            <p id="red4"></p>
-                            <button class="contact1" >Purchase</button>
-                            <button class="contact1" >Loan</button>
-                        </div>
-                    </div>
-                </div>
-        <div id="aboutus">
-            <div class="plaster">
-                <h1 class="small">Join the Stellar Community</h1>
-                <p class="boy">Become a part of the Stellar Motive community and embark on a journey where luxury meets affordability. We're not just selling cars; we're providing keys to a world of possibilities. Your dream car is just a drive away, and at Stellar Motive, we're passionate about making that dream a reality.</p>
-            </div>
-            <div class="plaster">
-                <h1 class="small">Our Commitment</h1>
-                <p class="boy">At the heart of Stellar Motive lies an unwavering commitment to providing top-tier vehicles and innovative financing options tailored to your unique needs. We believe that everyone deserves the thrill of driving their dream car, and we're here to turn those dreams into reality.</p>
-            </div>
-            <div class="plaster">
-                <h1 class="small">Exceptional Quality</h1>
-                <p class="boy">Discover a curated collection of the finest automobiles, ranging from sleek sedans to powerful SUVs. Our commitment to quality ensures that every vehicle in our inventory undergoes rigorous inspections, promising you a driving experience that's not only stylish but also reliable and safe.</p>
-            </div>
-            <div class="plaster">
-                <h1 class="small">Finance with Confidence</h1>
-                <p class="boy">Navigating the financial aspects of purchasing a car can be overwhelming. That's why Stellar Motive offers flexible and transparent financing solutions. Our team of financial experts is dedicated to finding the perfect plan for you, turning the journey to car ownership into a seamless and empowering process.</p>
-            </div>
-            <div class="plaster">
-                <h1 class="small">Stellar Experience</h1>
-                <p class="boy">Beyond the transaction, Stellar Motive is about creating a stellar experience for every customer. Our knowledgeable and friendly staff is here to guide you through every step, ensuring that you feel confident and excited about your automotive choices.</p>
-            </div>
-            
-        </div>
-
-       
-
-               
-    <footer>
-        <span>&copy; 2023, Designed by Hassan Fawaz Oladipupo</span>
-        <p>
-            <span class="font"><i class="fa-brands fa-facebook"></i></span>
-            <span class="font"><i class="fa-brands fa-twitter"></i></span>
-            <span class="font"><i class="fa-brands fa-linkedin"></i></span>
-            <span class="font"><i class="fa-brands fa-github"></i></span>
-            
-        </p>
-    </footer>
+    </div>
     <script>
-        
+document.addEventListener("DOMContentLoaded", () => {
+    const chatBox = document.getElementById("chat-box");
+
+    function appendMessage(text, sender) {
+        const messageDiv = document.createElement("div");
+        messageDiv.classList.add(sender === "bot" ? "bot-message" : "user-message");
+        messageDiv.innerText = text;
+        chatBox.appendChild(messageDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function appendButton(text, callback) {
+        const button = document.createElement("button");
+        button.innerText = text;
+        button.onclick = callback;
+        chatBox.appendChild(button);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function startBusinessFlow() {
+        appendMessage("I need a business idea", "user");
+        setTimeout(() => {
+            appendMessage("What is your budget?", "bot");
+            appendButton("$10", () => showBusinessIdeas(10));
+            appendButton("$100", () => showBusinessIdeas(100));
+            appendButton("$1,000", () => showBusinessIdeas(1000));
+            appendButton("$10,000", () => showBusinessIdeas(10000));
+        }, 500);
+    }
+
+    function showBusinessIdeas(budget) {
+        appendMessage(`My budget is $${budget}`, "user");
+        setTimeout(() => {
+            appendMessage("Here are some business ideas for you:", "bot");
+
+            const ideas = {
+                10: [
+                { 
+    title: "Reselling Used Items", 
+    description: {
+        intro: "Reselling means buying used or unwanted items, making them look better, and selling them for a profit. You can start with things like clothes, shoes, or gadgets that people no longer use.",
+        benefits: "You don’t need a lot of money to start. It’s good for the environment because items are reused instead of thrown away. You can make money quickly if you find good products to sell.",
+        target: "This business is great for students, people who love shopping, and anyone who wants to make extra money.",
+        model: "Find old or unwanted items from friends, family, or thrift stores. Clean them up, take nice pictures, and sell them online or to people around you.",
+        setup: "Use Facebook Marketplace, Instagram, or WhatsApp groups to sell your items. You can also try eBay or other classified ads websites.",
+        operation: "Take clear photos of the items, set a fair price, and describe them well. Respond quickly to buyers and be polite.",
+        finance: "With just $10, you can buy a few used items and sell them for $50 or more, making a good profit.",
+        challenges: "Finding quality products may take time. Some people might try to scam you, so be careful when dealing with buyers.",
+        conclusion: "Reselling is an easy way to make money. You can start small and grow by selling more valuable items.",
+        additional: "You can expand by buying items in bulk or working with thrift stores to get better deals."
+    }
+},
+{ 
+    title: "Print-on-Demand Business", 
+    description: {
+        intro: "Print-on-Demand (POD) is a business where you sell custom-designed products like t-shirts, mugs, and phone cases without keeping stock. The products are only made when a customer orders them.",
+        benefits: "You don’t need to buy products in advance, so there’s no risk of losing money. It’s easy to start, and you can be creative by making unique designs.",
+        target: "This is great for artists, social media influencers, and people who love fashion or design.",
+        model: "Create a design, upload it to a POD platform, and set your price. When someone orders, the platform prints and ships it while you earn a profit.",
+        setup: "Sign up on websites like Printful, Teespring, or Redbubble. Create simple but attractive designs and upload them.",
+        operation: "Share your designs on social media and tell people about them. You can also create an online store to attract more customers.",
+        finance: "You can start for free by using online design tools. Your earnings depend on how many products you sell, with some people making $500 or more monthly.",
+        challenges: "There is a lot of competition, and you need to promote your designs well to make sales.",
+        conclusion: "Print-on-Demand is great if you love designing and can promote your work online.",
+        additional: "Choosing a unique theme or niche for your designs can help you stand out."
+    }
+},
+{ 
+    title: "Affiliate Marketing", 
+    description: {
+        intro: "Affiliate marketing is a way to make money by recommending products or services to others. When someone buys through your special link, you earn a commission.",
+        benefits: "You don’t need to create or sell your own products. It’s a good way to earn passive income over time.",
+        target: "This is great for bloggers, social media influencers, YouTubers, and people who like recommending things to others.",
+        model: "Join an affiliate program, get a unique link, and share it on your website, social media, or YouTube videos. When people buy through your link, you earn money.",
+        setup: "Sign up for programs like Amazon Associates, Jumia, or Konga Affiliate and start promoting their products.",
+        operation: "Write reviews, create videos, or share posts about products. The more people use your link, the more you earn.",
+        finance: "You can earn anywhere from a few dollars to thousands of dollars per month, depending on how many people buy through your link.",
+        challenges: "You need an audience who trusts your recommendations. It takes time to grow your influence.",
+        conclusion: "Affiliate marketing is a long-term business, but with patience, it can become a great source of income.",
+        additional: "Building an email list can help you get more buyers."
+    }
+},
+{ 
+    title: "Freelance Writing", 
+    description: {
+        intro: "Freelance writing means getting paid to write articles, blog posts, or other content for websites and businesses.",
+        benefits: "You can work from anywhere, choose your clients, and get paid for your writing skills.",
+        target: "Ideal for students, writers, and anyone who enjoys writing and storytelling.",
+        model: "Write articles or other content and sell your services to clients who need them.",
+        setup: "Sign up on websites like Fiverr, Upwork, or Freelancer. Create a profile showing your skills.",
+        operation: "Apply for jobs, write quality content, and deliver on time. Build a reputation to get more work.",
+        finance: "Beginners can earn $5 to $50 per article. With experience, earnings can reach $500 or more per month.",
+        challenges: "Finding clients at the start can be difficult, and some clients may not pay well.",
+        conclusion: "Freelance writing is a great way to make money, especially if you love writing.",
+        additional: "Specializing in a niche like tech or finance can help you earn more."
+    }
+},
+{ 
+    title: "Mini Importation", 
+    description: {
+        intro: "Mini importation means buying small, affordable goods from China and selling them for a profit in Nigeria.",
+        benefits: "You can buy products cheaply and sell them for a higher price, making good profit margins.",
+        target: "Great for students, small business owners, and online sellers.",
+        model: "Find popular products at low prices, buy in small quantities, and sell locally.",
+        setup: "Use websites like AliExpress, 1688, or Alibaba to find cheap products.",
+        operation: "Market your products through WhatsApp, Instagram, and Facebook ads.",
+        finance: "With $10, you can buy small products and resell them for a 2-3x profit.",
+        challenges: "Shipping takes time, and you need to make sure you buy from trusted suppliers.",
+        conclusion: "Mini importation is profitable if you choose the right products.",
+        additional: "Focus on trending or unique products for better sales."
+    }
+},
+{ 
+    title: "Handmade Crafts Selling", 
+    description: {
+        intro: "Making and selling handmade crafts like jewelry, candles, and art can be a great way to earn money.",
+        benefits: "You can start with materials costing less than $10 and turn your hobby into a business.",
+        target: "Perfect for creative people, artists, and those who enjoy DIY projects.",
+        model: "Create unique handmade products and sell them through social media or craft marketplaces.",
+        setup: "Use Instagram, WhatsApp, or Etsy to showcase and sell your crafts.",
+        operation: "Take good pictures, price items fairly, and engage with potential customers.",
+        finance: "Profits depend on your products, but selling small items can bring in $50 to $200 per month.",
+        challenges: "It takes time to build an audience, and handmade items require effort.",
+        conclusion: "A great business for creative individuals who enjoy making unique products.",
+        additional: "Personalized or custom-made crafts sell better."}
+
+    }
+                ],
+                100: [
+                {
+            "title": "Freelance Writing",
+            "description": {
+                "intro": "Freelance writing involves offering writing services to clients online. As a freelance writer, you can write blog posts, articles, product descriptions, whitepapers, and more. Companies, websites, and individuals constantly need written content, making this a lucrative business opportunity. With just a laptop and internet connection, you can start immediately and work from anywhere.",
+                "benefits": "Low startup cost, flexible schedule, and high earning potential. Unlike traditional jobs, freelance writing allows you to choose your own clients and set your rates. You also get to work remotely, eliminating commuting costs. Additionally, as you gain experience, you can charge higher rates and specialize in profitable niches like finance or technology writing.",
+                "target": "Bloggers, content creators, businesses needing copywriting. Many companies need quality content to attract traffic and engage their audience. Bloggers often outsource their writing to freelancers to maintain consistency. Digital marketers also hire writers for ad copy and sales pages.",
+                "model": "Create profiles on Fiverr, Upwork, or reach out to clients directly. These platforms connect freelancers with clients looking for content. You can also pitch businesses via LinkedIn or cold emails to find clients.",
+                "setup": "Set up a professional portfolio and start applying for writing gigs. Having samples of your work is crucial to showcase your skills. You can create a blog or use platforms like Medium to publish your writing.",
+                "operation": "Deliver high-quality content, meet deadlines, and build client relationships. Strong research skills and proper grammar are essential. The more reliable and skilled you are, the better your chances of securing repeat clients.",
+                "finance": "Earn from $50 to $500 per article depending on niche and experience. Beginners may start with lower rates, but experienced writers can earn significantly more, especially in technical or specialized industries.",
+                "challenges": "Finding consistent clients, competition, and pricing your services. The market is competitive, so standing out requires effort. New freelancers may struggle to get clients initially but can build a reputation over time.",
+                "conclusion": "Freelance writing is a profitable skill-based business with growth potential. It offers financial freedom, flexible working hours, and opportunities for specialization in high-paying niches.",
+                "additional": "Specialize in niches like finance, health, or technology for better rates. Having expertise in a particular field makes your writing more valuable, allowing you to charge premium prices."
+            }
+        },
+        {
+            "title": "Print on Demand",
+            "description": {
+                "intro": "Print on demand allows you to sell custom-designed products without holding inventory. This business model enables entrepreneurs to create unique designs and sell them on t-shirts, mugs, phone cases, and other merchandise. Products are only printed and shipped when a customer places an order, eliminating the need for upfront investment in stock.",
+                "benefits": "No upfront inventory costs, passive income, and global reach. Since there is no need to buy bulk products, the risk is low. Once designs are uploaded, they can generate sales over time without continuous effort. Additionally, you can sell to customers worldwide through platforms like Redbubble, Teespring, or your own website.",
+                "target": "Artists, designers, and entrepreneurs looking to sell custom merchandise. Creative individuals can turn their art into profitable products. Business owners can use print-on-demand for branded merchandise.",
+                "model": "Use platforms like Printify or Teespring to create and sell designs. These platforms integrate with e-commerce stores, allowing automated order processing and fulfillment.",
+                "setup": "Sign up on a print-on-demand platform and upload unique designs. Choose a niche, such as motivational quotes or pet lovers, to target a specific audience. Create high-quality mockups to attract buyers.",
+                "operation": "Promote your store via social media, SEO, and paid advertising. Success in print-on-demand depends on effective marketing. Running Facebook and Instagram ads can help drive traffic to your store.",
+                "finance": "Potential to earn $100 to $5,000 monthly based on sales volume. Your profit depends on product pricing, marketing effectiveness, and audience engagement.",
+                "challenges": "Design competition, marketing costs, and long shipping times. With many sellers in the market, standing out requires unique designs and effective branding.",
+                "conclusion": "A creative and scalable business ideal for passive income. Entrepreneurs can generate steady revenue by continuously adding new designs and optimizing marketing strategies.",
+                "additional": "Focus on niche designs or trending topics to increase sales. Researching market trends and leveraging social media influencers can boost brand visibility."
+            }
+        },
+        {
+            "title": "Social Media Management",
+            "description": {
+                "intro": "Social media management involves handling social accounts for businesses. Brands need active social media presence to engage customers, promote products, and drive sales. As a social media manager, you’ll create content, schedule posts, and interact with audiences.",
+                "benefits": "High demand, flexible work schedule, and recurring income. Most businesses recognize the importance of social media marketing, making this a sustainable career. You can work with multiple clients at once, increasing your earnings.",
+                "target": "Small businesses, influencers, and brands needing social media growth. Many companies lack the time or expertise to manage social accounts effectively.",
+                "model": "Offer services like content creation, engagement, and ad management. Some clients may require full management, while others only need specific services like analytics reporting.",
+                "setup": "Create a business page and showcase past social media work. Having an Instagram or Facebook page demonstrating your skills can attract potential clients.",
+                "operation": "Manage posting schedules, reply to comments, and analyze growth metrics. Consistency and engagement are crucial for success.",
+                "finance": "Charge $100 to $1,000 per client monthly depending on services. Some clients prefer monthly retainers, while others pay per project.",
+                "challenges": "Client retention, staying updated on trends, and handling multiple accounts. Social media algorithms change frequently, requiring continuous learning.",
+                "conclusion": "A profitable business for those skilled in social media marketing. Successful social media managers build long-term relationships with clients.",
+                "additional": "Offer bundled services like graphic design or influencer outreach. Expanding your skillset increases your value to clients."
+            }
+        }
+
+                ],
+                1000: [
+                {
+            "title": "E-commerce Store",
+            "description": {
+                "intro": "An e-commerce store allows you to sell physical or digital products online. With $1,000, you can invest in setting up a professional website, sourcing products, and running ads to attract customers. Whether you sell handmade crafts, electronics, or dropshipped items, e-commerce offers limitless potential.",
+                "benefits": "Scalable business model, global reach, and passive income potential. With automation tools, you can manage orders and customer service efficiently. The demand for online shopping continues to grow, making this a profitable venture.",
+                "target": "Entrepreneurs, retailers, and small business owners looking to sell online. Ideal for those who want to leverage the power of digital marketing to reach a broad audience.",
+                "model": "Create an online store using Shopify, WooCommerce, or BigCommerce. Choose between selling physical goods, digital products, or drop shipping. Use SEO and social media marketing to attract traffic.",
+                "setup": "Invest in a domain, web hosting, and product inventory. Design a user-friendly website and optimize product listings with high-quality images and descriptions.",
+                "operation": "Manage inventory, process orders, and handle customer service. Utilize automation tools to streamline operations and improve efficiency.",
+                "finance": "Potential to earn $1,000 to $10,000+ monthly depending on product selection and marketing efforts. The key is to reinvest profits into scaling your business.",
+                "challenges": "Inventory management, competition, and advertising costs. Success depends on selecting the right niche and executing effective marketing strategies.",
+                "conclusion": "E-commerce is a lucrative business with the right strategy and persistence. With proper planning and execution, you can build a brand that generates consistent income.",
+                "additional": "Consider niche products or unique branding to stand out. Offering exceptional customer service and optimizing the user experience will help you build a loyal customer base."
+            }
+        },
+        {
+            "title": "Digital Marketing Agency",
+            "description": {
+                "intro": "A digital marketing agency helps businesses grow their online presence through SEO, social media marketing, email marketing, and paid ads. With $1,000, you can set up a professional website, invest in online courses to improve your skills, and run ads to attract clients.",
+                "benefits": "High demand, recurring revenue, and remote work flexibility. Businesses are constantly looking for marketing professionals to increase their reach and conversions.",
+                "target": "Small businesses, startups, and e-commerce brands looking to boost their online presence. Many businesses prefer outsourcing digital marketing rather than hiring an in-house team.",
+                "model": "Offer services like Facebook Ads, Google Ads, SEO, and content marketing. Create service packages to cater to different client needs and budgets.",
+                "setup": "Build a website, set up a portfolio, and start networking. Utilize platforms like LinkedIn, Facebook groups, and freelance websites to find potential clients.",
+                "operation": "Manage marketing campaigns, analyze performance, and optimize strategies. Provide value through case studies and reports to retain long-term clients.",
+                "finance": "Charge $500 to $5,000 per client per month, depending on services. As you scale, you can hire a team and take on multiple clients simultaneously.",
+                "challenges": "Client acquisition, staying updated with marketing trends, and proving ROI. The digital marketing space is competitive, requiring continuous learning and adaptation.",
+                "conclusion": "A profitable business with low overhead and high earning potential. Those with strong marketing skills can build a thriving agency and scale over time.",
+                "additional": "Specialize in a niche, such as real estate, healthcare, or e-commerce, to stand out. Offering a unique value proposition will help you differentiate from competitors."
+            }
+        }
+                ],
+                10000: [
+                {
+            "title": "E-commerce Brand with Private Labeling",
+            "description": {
+                "intro": "With $10,000, you can launch an e-commerce brand with private labeling. Instead of dropshipping, you create your own branded products, which increases customer trust and long-term profitability. This budget allows you to source high-quality products, invest in branding, and run marketing campaigns for visibility.",
+                "benefits": "Higher profit margins, brand recognition, and customer loyalty. Unlike dropshipping, private labeling gives you control over product quality and pricing, helping you stand out in the market.",
+                "target": "Aspiring entrepreneurs, e-commerce sellers, and those looking to build a sustainable online brand. Ideal for individuals who want to establish a unique product line rather than relying on generic products.",
+                "model": "Source products from manufacturers, customize them with your branding, and sell through your website or marketplaces like Amazon and Etsy. Use influencer marketing and paid ads to scale your business.",
+                "setup": "Invest in product samples, packaging, and branding. Set up an online store using Shopify, WooCommerce, or Amazon FBA. Ensure your website is optimized for conversions.",
+                "operation": "Manage supplier relationships, handle fulfillment, and optimize ad campaigns. Use analytics tools to monitor sales and customer behavior.",
+                "finance": "Potential to earn $5,000 to $50,000 monthly depending on product demand and marketing strategies. Reinvesting profits into inventory and ads can accelerate growth.",
+                "challenges": "Higher upfront costs, supply chain management, and the need for effective branding. Success depends on product differentiation and strong marketing strategies.",
+                "conclusion": "Private labeling is a profitable business model for those willing to invest in branding and marketing. A well-executed strategy can lead to long-term success and scalability.",
+                "additional": "Consider using fulfillment services like Amazon FBA or third-party logistics providers to streamline operations. Customer retention strategies such as loyalty programs can further increase profitability."
+            }
+        },
+        {
+            "title": "Full-Scale Digital Marketing Agency",
+            "description": {
+                "intro": "With a $10,000 budget, you can establish a full-scale digital marketing agency. Unlike a freelance setup, this allows you to hire a small team, invest in premium tools, and run paid advertising campaigns to attract high-ticket clients. The demand for digital marketing services is growing as businesses shift online.",
+                "benefits": "Scalability, high-income potential, and recurring revenue. With a team in place, you can handle multiple clients and offer diverse services like SEO, PPC, social media marketing, and conversion optimization.",
+                "target": "Medium-sized businesses, startups, and e-commerce brands looking to scale their online presence. Ideal for entrepreneurs with marketing expertise who want to build a long-term agency business.",
+                "model": "Offer full-service digital marketing packages, including content creation, paid ads, and SEO. Position your agency as a results-driven solution for business growth.",
+                "setup": "Invest in a professional website, branding, and automation tools like CRM software. Hire a team of specialists (freelancers or employees) to deliver high-quality services.",
+                "operation": "Develop marketing strategies, execute campaigns, and optimize for better performance. Track key performance indicators (KPIs) to ensure client satisfaction and retention.",
+                "finance": "Charge $1,500 to $10,000 per client per month. A successful agency can generate six to seven figures annually by maintaining a steady client base.",
+                "challenges": "Client acquisition, project management, and staying updated with digital trends. Building a reputable agency takes time and consistent effort.",
+                "conclusion": "With the right strategy, a digital marketing agency can become a highly profitable business. Investing in skilled personnel and premium tools enhances service quality and results.",
+                "additional": "Consider specializing in high-paying niches like real estate, healthcare, or e-commerce. Offering long-term contracts and performance-based pricing can improve revenue stability."
+            }
+        },
+        {
+            "title": "Niche Subscription Box Service",
+            "description": {
+                "intro": "A subscription box business is an excellent way to create a recurring revenue stream. With $10,000, you can launch a niche subscription box service offering curated products based on customer interests, such as gourmet foods, beauty products, or fitness gear.",
+                "benefits": "Predictable monthly revenue, brand loyalty, and the ability to cater to a specific target audience. Subscription models create a sense of exclusivity and repeat customers.",
+                "target": "Consumers looking for convenience, curated experiences, and specialty products. Ideal for entrepreneurs who enjoy product curation and customer engagement.",
+                "model": "Curate a selection of products, package them as a subscription box, and offer different pricing tiers. Ship boxes on a monthly or quarterly basis.",
+                "setup": "Choose a niche, build a website with a subscription model (using platforms like Cratejoy or Shopify), and negotiate with suppliers for bulk pricing.",
+                "operation": "Manage inventory, process subscriptions, and optimize marketing campaigns through social media and influencer partnerships.",
+                "finance": "Potential to generate $10,000+ in recurring monthly revenue with 500+ subscribers. Profit margins depend on product sourcing and operational efficiency.",
+                "challenges": "Managing logistics, customer retention, and competitive pricing can be challenging. Customer churn is a major risk that requires engagement strategies.",
+                "conclusion": "Subscription boxes can build strong brand loyalty and a sustainable income. Unique themes and high-quality products help differentiate in the market.",
+                "additional": "Leverage unboxing experiences and customer reviews to create viral marketing campaigns. Offering customization options increases customer retention."
+            }
+        },
+        {
+            "title": "Small-Scale Real Estate Investing",
+            "description": {
+                "intro": "With $10,000, you can enter the real estate market through options like wholesaling, fractional ownership, or short-term rental arbitrage. This allows you to leverage property investment without needing a large capital reserve.",
+                "benefits": "Passive income potential, long-term asset appreciation, and diversification. Real estate remains one of the most secure wealth-building strategies.",
+                "target": "Aspiring investors, entrepreneurs seeking passive income, and individuals looking to enter the property market with minimal capital.",
+                "model": "Invest in real estate crowdfunding, buy rental properties through lease options, or wholesale properties by securing contracts and selling them to other investors.",
+                "setup": "Research local markets, build a network of real estate professionals, and leverage financing options such as seller financing or joint ventures.",
+                "operation": "Manage rental properties, analyze market trends, and secure profitable investment deals. Optimize short-term rentals with platforms like Airbnb.",
+                "finance": "Potential returns vary, with some strategies yielding 10-30% ROI. Rental properties can generate $500-$2,000/month in passive income.",
+                "challenges": "Market fluctuations, property management complexities, and regulatory changes. Success requires market knowledge and strategic investments.",
+                "conclusion": "Real estate can be a lucrative investment with the right approach. Leveraging alternative financing and strategic partnerships maximizes opportunities.",
+                "additional": "Consider starting with rental arbitrage or crowdfunding before scaling into full property ownership. Networking with real estate professionals accelerates success."
+            }
+        }
+
+                ]
+            };
+
+            ideas[budget].forEach((idea) => {
+                appendButton(idea.title, () => showBusinessDetails(idea.title, idea.description));
+            });
+        }, 500);
+    }
+
+    function showBusinessDetails(title, description) {
+        appendMessage(`Business Idea: ${title}`, "bot");
+        appendMessage(`Introduction: ${description.intro}`, "bot");
+        appendMessage(`Benefits/Advantages: ${description.benefits}`, "bot");
+        appendMessage(`Target Market: ${description.target}`, "bot");
+        appendMessage(`Business Model: ${description.model}`, "bot");
+        appendMessage(`Setup/Start Process: ${description.setup}`, "bot");
+        appendMessage(`Operation/Management: ${description.operation}`, "bot");
+        appendMessage(`Financial Projection: ${description.finance}`, "bot");
+        appendMessage(`Challenges & Risks: ${description.challenges}`, "bot");
+        appendMessage(`Conclusion: ${description.conclusion}`, "bot");
+        appendMessage(`Additional Information: ${description.additional}`, "bot");
+
+        setTimeout(() => {
+            appendMessage("If you like what you see, help support our good work by donating to Opay: Hassan Fawaz Oladipupo - 8086556841.", "bot");
+        }, 1000);
+    }
+
+    document.querySelector(".chat-input button").addEventListener("click", startBusinessFlow);
+});
+
+function showAdPopup() {
+    const adPopup = document.createElement("div");
+    adPopup.classList.add("ad-popup");
+    adPopup.innerHTML = `
+        <p>🚀 Boost your social presence and promote your product!<br>Gain access to exclusive tools on <strong>Connect Camp</strong>.</p>
+        <a href="https://conectcamp.com.ng" target="_blank">Visit Connect Camp</a>
+        <button class="close-ad">✖</button>
+    `;
+    document.body.appendChild(adPopup);
+
+    document.querySelector(".close-ad").addEventListener("click", () => {
+        adPopup.remove();
+    });
+}
+
+// Show ad popup after 10 seconds
+setTimeout(showAdPopup, 10000);
+
+
+
     </script>
-  <script src="stellarcar.js"></script>
 </body>
 </html>
-
